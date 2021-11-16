@@ -13,6 +13,7 @@ roles.hasMany(userRoles,{
     sourceKey:'id'
     })
 
+
 users.hasMany(userRoles,{
     foreignKey:'role',
     sourceKey:'id'
