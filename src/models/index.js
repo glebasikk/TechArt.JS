@@ -10,38 +10,65 @@ const basket = require("./basket")
 
 roles.hasMany(userRoles,{
     foreignKey:'role',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+userRoles.belongsTo(roles)
+
 
 users.hasMany(userRoles,{
     foreignKey:'role',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+userRoles.belongsTo(users)
+
 
 promocodes.hasMany(orders,{
     foreignKey:'promocode',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+orders.belongsTo(promocodes)
+
 
 orders.hasMany(basket,{
     foreignKey:'orderID',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+basket.belongsTo(orders)
+
 
 userRoles.hasMany(basket,{
     foreignKey:'customerID',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+basket.belongsTo(userRoles)
+
 
 pizzas.hasMany(basket,{
     foreignKey:'pizzaID',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+basket.belongsTo(pizzas)
+
 
 users.hasMany(userInfo,{
     foreignKey:'user',
-    sourceKey:'id'
-    })
+    sourceKey:'id',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT'
+})
+userInfo.belongsTo(users)
 
 
 

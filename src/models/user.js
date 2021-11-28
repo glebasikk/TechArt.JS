@@ -1,8 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./sequelize");
 
-
-  const userInfo = sequelize.define("userInfo", {
+ const users = sequelize.define("users", {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -14,13 +13,11 @@ const sequelize = require("./sequelize");
         allowNull: false
     },
     password: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
       },
   });
 
 
-  module.exports = userInfo
-
-
-  
+module.exports = users
+ 
