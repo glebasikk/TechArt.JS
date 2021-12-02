@@ -1,11 +1,11 @@
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("pizza", "root", "we7101664", {
-    dialect: "mysql",
-    host: "localhost",
-    port: "3306",
-    define:{
-        timestamps: false
+        dialect: "mysql",
+        host: "localhost",
+        port: "3306",
+        define:{
+            timestamps: false
     }
 });
 

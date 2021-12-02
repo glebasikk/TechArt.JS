@@ -1,0 +1,27 @@
+{
+  "name": "pizza",
+  "version": "1.0.0",
+  "description": "pizza delivery",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glebasikk/TechArt.JS.git"
+  },
+  "author": "Gleb Isachenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glebasikk/TechArt.JS/issues"
+  },
+  "homepage": "https://github.com/glebasikk/TechArt.JS#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3-rc.0",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.9.0"
+  }
+}
