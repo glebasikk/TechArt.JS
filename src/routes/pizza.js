@@ -4,7 +4,10 @@ const router = express.Router();
 
 router.post("/addPizza", pizza.createPizzas)
 router.post("/delPizza", pizza.deletePizzas)
-router.get("/1", pizza.allPizzas)
+router.post("/update", pizza.updateIngrdients)
+router.post("/find", pizza.findbyPk)
+router.get("/", pizza.all)
 
 module.exports = router
+
 

@@ -17,7 +17,6 @@ roles.hasMany(userRoles,{
 userRoles.belongsTo(roles)
 
 
-
 users.hasMany(userRoles,{
     foreignKey:'role',
     sourceKey:'id',

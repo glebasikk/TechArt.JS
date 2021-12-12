@@ -1,23 +1,32 @@
 const express = require('express')
-const pizzaController = require("../service/pizza");
+const pizzaService = require("../service/pizza");
 const Response = require("../help/Response")
 
 
-class pizza {
-    static createPizzas(req, res) {
-        pizzaController.createpizza(req.body.name,req.body.picture, req.body.price, req.body.ingridients);
+class pizzaController {
+     createPizzas(req, res) {
+        pizzaService.createpizza(req.body.name,req.body.picture, req.body.price, req.body.ingridients);
         return res.json(new Response("200", "Pizza sacsessful added"))
     }
-    static deletePizzas(req, res) {
-        pizzaController.deletepizza(req.body.id);
+     deletePizzas(req, res) {
+        pizzaService.deletepizza(req.body.id);
         return res.json(new Response("200", "Pizza sacsessful deleted"))
     }
-    static allPizzas(req, res) {
-        let y = pizzaController.allpizzas()
+     async all(req, res) {
+        let y = await pizzaService.allpizzas()
          return res.json(y)
-        
     }
+     async updateIngrdients(req,res){
+         pizzaService.updatePizzaIngridients(req.body.id,req.body.ingridients)
+         return res.json(new Response("200", "Ingridients sacsessful updated"))
+     }
+     async findbyPk(req,res){
+         let y = await pizzaService.findByPK(req.body.id)
+         return res.json(y)
+     }
+    
+
 }
 
-module.exports = pizza
+module.exports = new pizzaController()
 
