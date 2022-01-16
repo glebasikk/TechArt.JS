@@ -2,14 +2,22 @@ const Sequelize = require("sequelize");
 const sequelize = require("./sequelize");
 
 
-    const orders = sequelize.define("orders", {
+    const order = sequelize.define("orders", {
         id: {
         type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             allowNull: false
         },
-        address: {
+        user: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        basket: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        adress: {
         type: Sequelize.INTEGER,
             allowNull: false
         },
@@ -23,7 +31,7 @@ const sequelize = require("./sequelize");
         },
         promocode: {
             type: Sequelize.FLOAT,
-            allowNull: false
+            allowNull: true
         },
         price: {
             type: Sequelize.INTEGER,
@@ -35,4 +43,4 @@ const sequelize = require("./sequelize");
         },
     });
 
-    module.exports = orders
+    module.exports = order

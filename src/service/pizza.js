@@ -1,18 +1,24 @@
-const sequelize = require("sequelize");
-const pizzas = require("../repository/pizzas");
+
+const pizzas = require("../repository/pizza");
 
 class pizza {
-    static createpizza (name,picture,price,ingridients ){
-        return pizzas.createPizzas(name,picture,price,ingridients)
+    async createPizza (name,picture,price,ingridients ){
+        return await pizzas.createPizzas(name,picture,price,ingridients)
     }
-    static deletepizza(id){
-        return pizzas.removePizzaById(id)
+    async deletePizza(id){
+        return await pizzas.removePizzaById(id)
     }
-    static allpizzas (){
-        return  pizzas.allpizzas()
+    async allPizzas (){
+        return await  pizzas.allpizzas()
+    }
+    async updatePizzaIngridients(id, ingridients){
+        return await pizzas.updatePizzaIngridients(id, ingridients)
+    }
+    async findByPK (id){
+        return await pizzas.findpizzaByID(id)
     }
 }
 
 //pizza.pizza("sad","sadsa", 111111, "1111")
 
-module.exports = pizza
+module.exports = new pizza()

@@ -2,18 +2,18 @@ const Sequelize = require("sequelize");
 const sequelize = require("./sequelize");
 
    
-   const userRoles = sequelize.define("userRoles", {
+   const userRoles = sequelize.define("user_Roles", {
        id: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
           primaryKey: true,
           allowNull: false
        },
-       userID: {
+       user_id: {
           type: Sequelize.INTEGER,
           allowNull: false
        },
-       roles: {
+       role_id: {
           type: Sequelize.INTEGER,
           allowNull: false
        }

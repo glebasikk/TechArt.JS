@@ -9,22 +9,29 @@ const sequelize = require("./sequelize");
             primaryKey: true,
             allowNull: false
         },
-        orderID: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        customerID: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        pizzaID: {
+        pizza_id: {
             type: Sequelize.INTEGER,
             allowNull: false
         },
         price: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        amount: {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-    });
+        user: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        basket: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        
+        }   ,{
+        freezeTableName: true
+      });
 
     module.exports = basket

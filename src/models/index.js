@@ -8,6 +8,7 @@ const userRoles = require("./userRoles");
 const users = require("./users");
 const basket = require("./basket")
 
+
 roles.hasMany(userRoles,{
     foreignKey:'role',
     sourceKey:'id',
@@ -34,18 +35,17 @@ promocodes.hasMany(orders,{
 })
 orders.belongsTo(promocodes)
 
-
-orders.hasMany(basket,{
-    foreignKey:'orderID',
+userRoles.hasMany(orders,{
+    foreignKey:'user',
     sourceKey:'id',
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT'
 })
-basket.belongsTo(orders)
+orders.belongsTo(promocodes)
 
 
 userRoles.hasMany(basket,{
-    foreignKey:'customerID',
+    foreignKey:'user',
     sourceKey:'id',
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT'
@@ -54,7 +54,7 @@ basket.belongsTo(userRoles)
 
 
 pizzas.hasMany(basket,{
-    foreignKey:'pizzaID',
+    foreignKey:'pizza_id',
     sourceKey:'id',
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT'
