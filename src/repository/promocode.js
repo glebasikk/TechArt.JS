@@ -1,25 +1,24 @@
+const nodemon = require("nodemon");
 const sequelize = require("sequelize");
-const promocodes    = require("../models/promocode");
+const promocodes = require("../models/promocode");
 
-class promo {
-    async  addPromocode( promocode, discount){
-        return await  promocodes.create(
-          {
-            //id:id,
+class promocode {
+    async findPromocode(id) {
+        return await promocodes.findOne({ where: { id: id } });
+    }
+    async addPromocode(promocode, discount, expires) {
+        return await promocodes.create({
             promocode: promocode,
-            discount: discount      
-          })
+            discount: discount,
+            expires: expires,
+        });
     }
-    async discount(id){
-     return await promocodes.max('discount',{where: {"id": id} ,attributes:['discount']})
-     
+    async discount(id) {
+        return await promocodes.max("discount", {
+            where: { id: id },
+            attributes: ["discount"],
+        });
     }
-
 }
-module.exports = new promo()
 
-
-
-
-
-//id,address,delivery,status,promocode,price,discount
+module.exports = new promocode();

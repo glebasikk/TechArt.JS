@@ -1,33 +1,26 @@
-const {secret} = require ('../config')
-const jwt = require('jsonwebtoken')
+const { secret } = require("../config");
+const jwt = require("jsonwebtoken");
+const Forbidden = require("../errors/Forbidden");
 
-
-module.exports = function (roles){
-        return function(req, res, next){
-        if (req.method === "OPTIONS"){
-            console.log(1)
-            next()
-        }
-        try{
-            const token = req.headers.authorization.split(' ')[1]
-            if(!token){
-                return res.status(400).json({message: 'user not authorized'})
+module.exports = function (role) {
+    return function (req, res, next) {
+        try {
+            const token = req.headers.authorization.split(" ")[1];
+            if (!token) {
+                throw new Forbidden("access denied");
             }
-            const {role: userRoles} = jwt.verify(token, secret)
-            let hasRole = false
-            userRoles.forEach(role => {
-                if(roles === role){
-                    hasRole =true
-                }
-                next()
-            });
-            if (hasRole){
-                return res.status(400).json({message: 'access denied'})
+            const { role: userRoles } = jwt.verify(token, secret);
+            let hasRole = false;
+            if (userRoles === role) {
+                hasRole = true;
             }
-            next()
-        }catch(e){
-            console.log(e)
-            return res.status(400).json({message: 'user not authorized'})
+            if (hasRole === false) {
+                throw new Forbidden("access denied");
+            }
+            next();
+        } catch (e) {
+            console.log(e);
+            next(e);
         }
-    }
-}
+    };
+};

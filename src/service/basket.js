@@ -1,28 +1,65 @@
 const sequelize = require("sequelize");
 const basketService = require("../repository/basket");
 const pizzas = require("../repository/pizza");
+const NotFound = require("../errors/NotFound");
+const Forbidden = require("../errors/Forbidden");
 
 class pizzaBaskets {
-    async all (){
-        return await  basketService.allpizzas()
+    async allBaskets() {
+        return await basketService.allBaskets();
     }
-    async add (id,amount,user,basket ){
-        
-        let price = await pizzas.findPriceofPizza(id)
-        price = price * amount
-        return await basketService.addPizza(id,price,amount,user,basket)
+    async userBaskets(userId) {
+        return await basketService.userBaskets(userId);
     }
-    async update(id,pizzaID, amount, user, basket){
-        let price = await pizzas.findPriceofPizza(pizzaID)
-        price = price * amount
-        return await basketService.update(id,pizzaID, amount, price, user,basket)
+    async add(pizzaId, amount, userId, basket) {
+        if ((await pizzas.findpizzaByID(pizzaId)) == null) {
+            throw new NotFound("pizza  does not exist");
+        }
+        let price = await pizzas.findPriceofPizza(pizzaId);
+        price = price * amount;
+        return await basketService.addPizza(
+            pizzaId,
+            price,
+            amount,
+            userId,
+            basket
+        );
     }
-    async delete(id){
-        return await basketService.deletePizza(id)
+    async update(id, pizzaId, amount, userId, basket) {
+        const findId = await basketService.findId(id);
+        if (findId == null) {
+            throw new NotFound("id  does not exist");
+        }
+        if (findId.user != userId) {
+            throw new Forbidden("access denied");
+        }
+        if ((await pizzas.findpizzaByID(pizzaId)) == null) {
+            throw new NotFound("pizza  does not exist");
+        }
+        let price = await pizzas.findPriceofPizza(pizzaId);
+        price = price * amount;
+        return await basketService.update(
+            id,
+            pizzaId,
+            amount,
+            price,
+            userId,
+            basket
+        );
     }
-    async price(user, basket){
-        return await basketService.findPriceofPizza(user, basket)
+    async delete(id, userId) {
+        const findId = await basketService.findId(id);
+        if (findId == null) {
+            throw new NotFound("Incorrect values");
+        }
+        if (findId.user != userId) {
+            throw new Forbidden("access denied");
+        }
+        return await basketService.deletePizza(id);
+    }
+    async price(userId, basket) {
+        return await basketService.findPriceofPizza(userId, basket);
     }
 }
 
-module.exports = new pizzaBaskets()
+module.exports = new pizzaBaskets();

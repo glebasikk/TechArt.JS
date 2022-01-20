@@ -4,36 +4,106 @@ const promocode = require("../controllers/promocode");
 const order = require("../controllers/order");
 const router = express.Router();
 const pizzaBasket = require("../controllers/basket");
-const auth = require("../controllers/auth")
-const authMidleware = require('../midlware/auth')
-const roleMidleware = require('../midlware/role')
-const registrationValidtor = require('../midlware/regitrationValidator')
-const loginValidtor = require('../midlware/loginValidator')
-const pizzaValidtor = require('../midlware/pizzaValidator')
-// Pizza
-router.post("/addPizza",pizzaValidtor.addPizza,authMidleware,roleMidleware(['admin']), pizza.createPizzas)
-router.post("/delPizza",pizzaValidtor.delPizza,authMidleware,roleMidleware(['admin']), pizza.deletePizzas)
-router.post("/updateIngredients",pizzaValidtor.updatePizza,authMidleware,roleMidleware(['admin']), pizza.updateIngrdients)
-router.post("/find",authMidleware,authMidleware,pizzaValidtor.findbyPk, pizza.findbyPk)
-router.get("/",authMidleware, pizza.all)
+const auth = require("../controllers/auth");
+const picture = require("../controllers/picture");
+const authMidleware = require("../midlware/auth");
+const roleMidleware = require("../midlware/role");
+const registrationValidtor = require("../midlware/regitrationValidator");
+const loginValidtor = require("../midlware/loginValidator");
+const pizzaValidtor = require("../midlware/pizzaValidator");
+const promocodeValidator = require("../midlware/promocdeValidator");
+const basketValidator = require("../midlware/basketValidator");
+const orderValidator = require("../midlware/orderValidator");
+
+// // Pizza
+router.post(
+    "/addPizza",
+    authMidleware,
+    pizzaValidtor.addPizza,
+    roleMidleware("admin"),
+    pizza.createPizzas
+);
+router.post(
+    "/delPizza",
+    authMidleware,
+    roleMidleware("admin"),
+    pizzaValidtor.delPizza,
+    pizza.deletePizzas
+);
+router.post(
+    "/updateIngredients",
+    authMidleware,
+    roleMidleware("admin"),
+    pizzaValidtor.updatePizza,
+    pizza.updateIngrdients
+);
+router.post("/find", authMidleware, pizzaValidtor.findbyPk, pizza.findbyPk);
+router.get("/", authMidleware, roleMidleware("admin"), pizza.all);
 //promocode
-router.post("/Promocode", promocode.addPromocode)
+router.post(
+    "/Promocode",
+    authMidleware,
+    promocodeValidator,
+    roleMidleware("admin"),
+    promocode.addPromocode
+);
 //order
-router.post("/newPromocode", order.newPromocode)
-router.post("/createOrder", order.addOrder)
-router.get("/orderList", order.orderList)
-router.get("/userAndOrder", order.userAndOrder)
+router.post(
+    "/addPromocode",
+    authMidleware,
+    orderValidator.addOrder,
+    order.addPromocode
+);
+router.post(
+    "/createOrder",
+    authMidleware,
+    orderValidator.addPromocode,
+    order.addOrder
+);
+router.get("/orderList", authMidleware, order.orderList);
+router.get(
+    "/userAndOrder",
+    authMidleware,
+    roleMidleware("admin"),
+    order.userAndOrder
+);
 //pizzaBasket
-router.get("/pizza", pizzaBasket.all)
-router.post("/addInBasket", pizzaBasket.add)
-router.post("/updateBasket", pizzaBasket.update)
-router.post("/delitePizzaFromBasket", pizzaBasket.delete)
-//
+router.get(
+    "/allBaskets",
+    authMidleware,
+    roleMidleware("admin"),
+    pizzaBasket.allBaskets
+);
+router.post(
+    "/userBaskets",
+    authMidleware,
+    basketValidator.userBaskets,
+    pizzaBasket.userBaskets
+);
+router.post(
+    "/addInBasket",
+    authMidleware,
+    basketValidator.add,
+    pizzaBasket.add
+);
+router.post(
+    "/updateBasket",
+    authMidleware,
+    basketValidator.update,
+    pizzaBasket.update
+);
+router.post(
+    "/deletePizzaFromBasket",
+    authMidleware,
+    basketValidator.delete,
+    pizzaBasket.delete
+);
 //auth
-router.post('/registration',registrationValidtor , auth.registration)
-router.post('/login',loginValidtor, auth.login)
-router.get('/logout',authMidleware, auth.logout)
-router.get('/deleteAccount',authMidleware, auth.deleteAccount)
+router.post("/registration", registrationValidtor, auth.registration);
+router.post("/login", loginValidtor, auth.login);
+router.get("/logout", authMidleware, auth.logout);
+router.get("/deleteAccount", authMidleware, auth.deleteAccount);
+// router.post("/download", auth.download);
+router.post("/upload", authMidleware, roleMidleware("admin"), picture.upload);
 
-
-module.exports = router
+module.exports = router;
