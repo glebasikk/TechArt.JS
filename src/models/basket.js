@@ -1,30 +1,39 @@
 const Sequelize = require("sequelize");
 const sequelize = require("./sequelize");
 
-
-    const basket = sequelize.define("basket", {
+const basket = sequelize.define(
+    "basket",
+    {
         id: {
-        type: Sequelize.INTEGER,
+            type: Sequelize.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            allowNull: false
+            allowNull: false,
         },
-        orderID: {
+        pizza_id: {
             type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        customerID: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        pizzaID: {
-            type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
         },
         price: {
-            type: Sequelize.INTEGER,
-            allowNull: false
+            type: Sequelize.FLOAT,
+            allowNull: false,
         },
-    });
+        amount: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
+        user: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
+        basket: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
+    },
+    {
+        freezeTableName: true,
+    }
+);
 
-    module.exports = basket
+module.exports = basket;

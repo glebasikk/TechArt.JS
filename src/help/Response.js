@@ -1,8 +1,8 @@
 class Response {
     constructor(message, status) {
-      this.message = message;
-      this.status = status;
+        this.message = message;
+        this.status = status;
     }
-  }
-  
-  module.exports = Response
+}
+
+module.exports = Response;
