@@ -1,8 +1,6 @@
-const nodemon = require("nodemon");
-const sequelize = require("sequelize");
 const promocodes = require("../models/promocode");
 
-class promocode {
+class Promocode {
     async findPromocode(id) {
         return await promocodes.findOne({ where: { id: id } });
     }
@@ -21,4 +19,4 @@ class promocode {
     }
 }
 
-module.exports = new promocode();
+module.exports = new Promocode();

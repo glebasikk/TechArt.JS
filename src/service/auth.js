@@ -15,15 +15,30 @@ const generateToken = (id, email, role) => {
     return jwt.sign(payload, secret, { expiresIn: "24h" });
 };
 
-class authservice {
+class Auth {
+    async allUsers(page) {
+        if (page == undefined || page < 1) {
+            page = 1;
+        }
+        let limit = 4;
+        let startIndex = (page - 1) * limit;
+        let endIndex = page * limit;
+
+        let result = await userRepo.allUsers();
+        result = result.slice(startIndex, endIndex);
+        if (result[0] == null) {
+            console.log(1);
+            throw new NotFound("Page does not exist");
+        }
+        return result;
+    }
     async registration(email, password, username) {
         if ((await userRepo.findUserByEmail(email)) !== null) {
             throw new PreconditionFailed("user exist");
         }
         const hashPassword = bcrypt.hashSync(password, 5);
-        const userRole = await roleRepo.findRole("admin");
-        await userRepo.addUser(username, email, hashPassword, userRole);
-        return new Response("200", "User sacsessful added");
+        const userRole = await roleRepo.findRole("user");
+        return await userRepo.addUser(username, email, hashPassword, userRole);
     }
     async login(email, password) {
         if ((await userRepo.findUserByEmail(email)) == null) {
@@ -48,4 +63,4 @@ class authservice {
     }
 }
 
-module.exports = new authservice();
+module.exports = new Auth();

@@ -1,5 +1,4 @@
 const picture = require("../models/picture");
-const sequelize = require("sequelize");
 
 class Picture {
     async addPicture(path) {

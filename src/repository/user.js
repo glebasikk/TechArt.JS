@@ -1,8 +1,11 @@
-const sequelize = require("sequelize");
 const user = require("../models/user");
-const role = require("../models/roles");
 
-class users {
+class User {
+    async allUsers() {
+        return await user.findAll({
+            where: { id: id, username: username, email: email },
+        });
+    }
     async findUserByEmail(email) {
         return await user.findOne({ where: { email: email } });
     }
@@ -33,4 +36,4 @@ class users {
     }
 }
 
-module.exports = new users();
+module.exports = new User();

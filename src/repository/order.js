@@ -1,9 +1,6 @@
-const sequelize = require("sequelize");
 const orders = require("../models/order");
-const { discount } = require("./promocode");
 
-// id, address,delivery,status,promocode,price,discount
-class order {
+class Order {
     async createOrder(
         user,
         basket,
@@ -60,4 +57,4 @@ class order {
     }
 }
 
-module.exports = new order();
+module.exports = new Order();

@@ -5,7 +5,7 @@ const userRepo = require("../repository/user");
 const NotFound = require("../errors/NotFound");
 const NotAcceptable = require("../errors/NotAcceptable");
 
-class orderService {
+class Order {
     async createOrder(user, basket, adress, delivery, status, promocode) {
         if (promocode === undefined) {
             promocode = 1;
@@ -20,10 +20,10 @@ class orderService {
 
         let today = new Date();
         let todayParse = Date.parse(today);
-        console.log(promo.expires);
         if (Date.parse(promo.expires) < todayParse) {
             throw new NotAcceptable("promo code has expired");
         }
+        today = todayParse;
         let price = await basketRepo.findPriceofPizza(user, basket);
         let discount = price * (await promocdeRepo.discount(promocode));
         let totalPrice = price - discount;
@@ -49,7 +49,12 @@ class orderService {
         if (promo == null) {
             throw new NotFound("promocode  does not exist");
         }
-        if (order.promocode != "no promo code") {
+        let today = new Date();
+        let todayParse = Date.parse(today);
+        if (Date.parse(promo.expires) < todayParse) {
+            throw new NotAcceptable("promo code has expired");
+        }
+        if (order.promocode != 1) {
             throw new NotAcceptable("promo code already activated");
         }
         let price = await basketRepo.findPriceofPizza(user, order.basket);
@@ -62,8 +67,19 @@ class orderService {
             discount
         );
     }
-    async orderList() {
-        return await orderRepo.ordersList();
+    async orderList(page) {
+        if (page == undefined || page < 1) {
+            page = 1;
+        }
+        let limit = 4;
+        let startIndex = (page - 1) * limit;
+        let endIndex = page * limit;
+        let result = await orderRepo.ordersList();
+        result = result.slice(startIndex, endIndex);
+        if (result[0] == null) {
+            throw new NotFound("Page does not exist");
+        }
+        return result;
     }
     async userAndOrder() {
         let mas = [];
@@ -83,9 +99,7 @@ class orderService {
             }
         }
         return mas;
-        // return orderRepo.userAndOrder(id);
-        // return await orderRepo.CountOrdersForUser(id);
     }
 }
 
-module.exports = new orderService();
+module.exports = new Order();

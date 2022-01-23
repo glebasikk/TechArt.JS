@@ -1,9 +1,8 @@
-const sequelize = require("sequelize");
 const promocodeRepo = require("../repository/promocode");
 const PreconditionFailed = require("../errors/PreconditionFailed");
 const NotAcceptable = require("../errors/NotAcceptable");
 
-class promocodes {
+class Promocode {
     async addPromocode(promocode, discount, expires) {
         let promo = await promocodeRepo.findPromocode(promocode);
         if (promo != null) {
@@ -18,4 +17,4 @@ class promocodes {
     }
 }
 
-module.exports = new promocodes();
+module.exports = new Promocode();

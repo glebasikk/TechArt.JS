@@ -1,29 +1,6 @@
-const sequelize = require("sequelize");
-<<<<<<< HEAD
-const baskets    = require("../models/basket");
-
-class basket {
-    async  addPromocode(id, promocde){
-        return await  basket.update(
-          {
-            promocde: promocde
-          },
-          {where:{id: id}})
-    }
-}
-
-module.exports = new basket()
-
-
-
-
-
-//id,address,delivery,status,promocode,price,discount
-=======
 const pizzaBasket = require("../models/basket");
-const pizza = require("./pizza");
 
-class pizzaBaskets {
+class PizzaBaskets {
     async allBaskets() {
         return await pizzaBasket.findAll();
     }
@@ -80,7 +57,9 @@ class pizzaBaskets {
             attributes: ["price"],
         });
     }
+    async findUserAndPizza(id, user) {
+        return await pizzaBasket.findOne({ where: { id: id, user: user } });
+    }
 }
 
-module.exports = new pizzaBaskets();
->>>>>>> dev
+module.exports = new PizzaBaskets();
