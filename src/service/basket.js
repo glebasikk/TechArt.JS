@@ -33,7 +33,9 @@ class Pizza {
             console.log(findId.user, userId);
             throw new Forbidden("access denied");
         }
-        if ((await pizzaRepo.findpizzaByID(pizzaId)) == null) {
+        let pizza = await pizzaRepo.findpizzaByID(1);
+        console.log(pizza);
+        if (pizza == null) {
             throw new NotFound("pizza  does not exist");
         }
         let price = await pizzaRepo.findPriceofPizza(pizzaId);
@@ -48,6 +50,7 @@ class Pizza {
         );
     }
     async delete(id, userId) {
+        console.log(id, userId);
         const pizzaInBasket = await basketRepo.findUserAndPizza(id, userId);
         if (pizzaInBasket == null) {
             throw new NotFound("Pizza for this user not found");

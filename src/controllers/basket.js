@@ -1,38 +1,36 @@
-const express = require("express");
-const basketController = require("../service/basket");
+const basketService = require("../service/basket");
 const Response = require("../help/Response");
 const validator = require("express-validator");
+const PreconditionFailed = require("../errors/PreconditionFailed");
 
-class pizzaController {
-    async allBaskets(req, res) {
+class Pizza {
+    async allBaskets(req, res, next) {
         try {
-            let y = await basketController.allBaskets();
-            return res.json(y);
+            let userList = await basketService.allBaskets();
+            return res.json(userList);
         } catch (e) {
-            console.log(e);
-            return res.json(new Response("400", "basket error"));
+            next(e);
         }
     }
-    async userBaskets(req, res) {
+    async userBaskets(req, res, next) {
         try {
             const err = validator.validationResult(req);
             if (!err.isEmpty()) {
-                return res.json(err);
+                throw new PreconditionFailed("invalid input values ");
             }
-            let y = await basketController.userBaskets(req.body.userId);
-            return res.json(y);
+            let userList = await basketService.userBaskets(req.body.userId);
+            return res.json(userList);
         } catch (e) {
-            console.log(e);
-            return res.json(new Response("400", "basket error"));
+            next(e);
         }
     }
-    async add(req, res) {
+    async add(req, res, next) {
         try {
             const err = validator.validationResult(req);
             if (!err.isEmpty()) {
-                return res.json(err);
+                throw new PreconditionFailed("invalid input values ");
             }
-            basketController.add(
+            basketService.add(
                 req.body.pizzaId,
                 req.body.amount,
                 req.body.userId,
@@ -40,44 +38,44 @@ class pizzaController {
             );
             return res.json(new Response("200", "Pizza sacsessful added"));
         } catch (e) {
-            console.log(e);
-            return res.json(new Response("400", "basket error"));
+            next(e);
         }
     }
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const err = validator.validationResult(req);
             if (!err.isEmpty()) {
-                return res.json(err);
+                throw new PreconditionFailed("invalid input values ");
             }
-            basketController.update(
+            basketService.update(
                 req.body.id,
                 req.body.pizzaId,
                 req.body.amount,
                 req.body.userId,
                 req.body.basket
             );
-            return res.json(new Response("200", "basket sacsessfully changed"));
+            return res.json(new Response("200", "basket successfully changed"));
         } catch (e) {
-            console.log(e);
-            return res.json(new Response("400", "basket error"));
+            next(e);
         }
     }
-    async delete(req, res) {
+    async delete(req, res, next) {
         try {
             const err = validator.validationResult(req);
             if (!err.isEmpty()) {
-                return res.json(err);
+                throw new PreconditionFailed("invalid input values ");
             }
-            await basketController.delete(req.body.id, req.body.pizzaId);
+            await basketService.delete(req.body.id, req.body.userId);
             return res.json(
-                new Response("200", "Pizza sacsessful deleted from the basket")
+                new Response(
+                    "200",
+                    "Pizza successfully deleted from the basket"
+                )
             );
         } catch (e) {
-            console.log(e);
-            return res.json(new Response("400", "delete error"));
+            next(e);
         }
     }
 }
 
-module.exports = new pizzaController();
+module.exports = new Pizza();

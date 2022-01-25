@@ -9,6 +9,7 @@ module.exports = function (req, res, next) {
             throw new Forbidden("user not authorized");
         }
         const decodedData = jwt.verify(token, secret);
+        req.body.token = token;
         req.body.userId = decodedData.id;
         req.body.email = decodedData.email;
         req.body.role = decodedData.role;

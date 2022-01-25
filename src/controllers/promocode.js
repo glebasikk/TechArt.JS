@@ -1,14 +1,14 @@
-const express = require("express");
 const promocodeService = require("../service/promocode");
 const Response = require("../help/Response");
 const validator = require("express-validator");
+const PreconditionFailed = require("../errors/PreconditionFailed");
 
-class promocodeController {
-    addPromocode(req, res) {
+class Promocode {
+    addPromocode(req, res, next) {
         try {
             const err = validator.validationResult(req);
             if (!err.isEmpty()) {
-                return res.json(err);
+                throw new PreconditionFailed("invalid input values ");
             }
             promocodeService.addPromocode(
                 req.body.promocode,
@@ -17,9 +17,9 @@ class promocodeController {
             );
             return res.json(new Response("200", "Promocde sacsessful added"));
         } catch (e) {
-            console.log(e);
-            return res.json(new Response("400", "Promocode error"));
+            next(e);
         }
     }
 }
-module.exports = new promocodeController();
+
+module.exports = new Promocode();

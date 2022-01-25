@@ -1,12 +1,13 @@
 const pictureService = require("../service/picture");
+const Response = require("../help/Response");
 
 class Picture {
-    async upload(req, res) {
+    async upload(req, res, next) {
         try {
             await pictureService.upload(req.file);
-            return res.send("succsess");
+            return res.send(new Response("200", "picture added"));
         } catch (e) {
-            console.log(e);
+            next(e);
         }
     }
 }

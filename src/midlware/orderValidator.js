@@ -19,6 +19,6 @@ module.exports = {
         check("userId", "userId empty").notEmpty(),
         check("userId", "userId  not Int").isInt(),
         check("promocode", "promocode  not Int").isInt(),
-        check("promocode", "promocode  not string").isString(),
+        check("promocode", "promocode  not string").notEmpty(),
     ],
 };
