@@ -1,4 +1,4 @@
-const Sequelize = require("sequelize");
+
 const sequelize = require("../models/sequelize");
 const picture = require("../models/picture");
 const pizzas = require("../models/pizza");
@@ -6,10 +6,11 @@ const pizzas = require("../models/pizza");
 const notFound = require("../errors/NotFound");
 const fs = require("fs");
 
-class trans {
-    async trans(id) {
+class Transaction {
+    async transaction(id) {
+        const t = await sequelize.transaction();
         try {
-            //const t = await sequelize.transaction();
+            
             let pizza = await pizzas.findOne({ where: { id: id } });
             if (pizza == null) {
                 throw new notFound("pizza does not exist");
@@ -30,26 +31,14 @@ class trans {
                 }
             });
 
-            await pizzas.destroy({ where: { id: id } }, { transaction: t });
+            await pizzas.destroy({ where: { id: id }, transaction: t  });
             await picture.destroy(
-                { where: { id: pizza.picture } },
-                { transaction: t }
+                { where: { id: pizza.picture },transaction: t },
             );
-        } catch {}
+            t.commit()
+        } catch {
+            t.rollback()
+        }
     }
-    // async removePizzaById(id) {
-    //     Sequelize.Transaction ()
-    //     return await pizzas.destroy({ where: { id: id } }); // 'id'
-    // }
-
-    // async findPictureByID(id) {
-    //     return await picture.findOne({ where: { id: id } });
-    // }
-    // async deletePicture(id) {
-    //     return await picture.destroy(
-    //         { where: { id: id } },
-    //         { transaction: transaction.transaction() }
-    //     );
-    // }
 }
-module.exports = new trans();
+module.exports = new Transaction();

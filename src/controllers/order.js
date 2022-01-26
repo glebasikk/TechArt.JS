@@ -3,6 +3,7 @@ const sequelize = require("../models/sequelize");
 const validator = require("express-validator");
 const Response = require("../help/Response");
 const PreconditionFailed = require("../errors/PreconditionFailed");
+const transaction = require("../repository/transaction")
 
 class Order {
     async addOrder(req, res, next) {
@@ -56,6 +57,14 @@ class Order {
             return await res.json(await orderService.userAndOrder());
         } catch (e) {
             next(e);
+        }
+    }
+    async transaction(req, res, next){
+        try{
+            await transaction.transaction(req.body.id)
+            return res.json(new Response("200", "Pizza and picture successfully"));
+        }catch(e){
+            next(e)
         }
     }
     async bestUsers(req, res, next) {

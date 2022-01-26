@@ -29,5 +29,9 @@ router.post(
 router.post("/find", authMidleware, pizzaValidtor.findbyPk, pizza.findbyPk);
 router.get("/pizzaList?:page", authMidleware, pizza.all);
 router.get("/bestPizza", authMidleware, pizza.bestPizza);
+router.post("/transaction",authMidleware,
+roleMidleware("admin"),
+pizzaValidtor.updatePizza,
+pizza.transaction)
 
 module.exports = router;

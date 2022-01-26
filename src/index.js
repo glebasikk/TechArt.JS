@@ -6,6 +6,6 @@ async function start() {
     });
 }
 
-// trans.trans(5);
+ 
 
 start();

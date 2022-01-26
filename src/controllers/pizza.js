@@ -4,6 +4,7 @@ const validator = require("express-validator");
 const sequelize = require("../models/sequelize");
 const PreconditionFailed = require("../errors/PreconditionFailed");
 const transaction = require("../repository/transaction");
+const transaction = require("../repository/transaction")
 
 class Pizza {
     async createPizzas(req, res, next) {
