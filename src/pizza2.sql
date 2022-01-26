@@ -125,15 +125,16 @@ VALUES
 INSERT INTO `pictures`
 (`picture`)
 VALUES
-( "uploads\00082b3154f4f4c18ca22233ddd40a1d"),
-( "uploads\8561c1dab0b4f9a391a7daf1db9b3b86"),
-( "uploads\6552080454ea085e2bad071c18ff7cef"),
-( "uploads\b023277303c12f96b3665f497ecffc01");
+( "uploads\\00082b3154f4f4c18ca22233ddd40a1d"),
+( "uploads\\8561c1dab0b4f9a391a7daf1db9b3b86"),
+( "uploads\\6552080454ea085e2bad071c18ff7cef"),
+( "uploads\\b023277303c12f96b3665f497ecffc01");
 
 INSERT INTO `pizzas`
 (`name`,`ingridients`,`picture`,`price`)
 VALUES
 ( "Marinara","tomatoes, garlic, oregano, and extra virgin olive oil.",1,7),
+( "Sicilian","tomato, onion, anchovies, and herbs",2,9.3),
 ( "Sicilian","tomato, onion, anchovies, and herbs",2,9.3),
 ( "Neapolitan ","anchovies, and herbstomato, onion", 3,12),
 ( "Greek","garlic,oil,tomatoes",1,15.5);
